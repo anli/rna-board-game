@@ -17,6 +17,8 @@ module.exports = {
           '.json',
         ],
         alias: {
+          '@ui': './src/ui',
+          '@themes': './src/themes',
           '@navigation': './src/navigation',
           '@screens': './src/screens',
         },
