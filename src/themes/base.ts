@@ -1,50 +1,85 @@
 import * as tokens from '@shopify/polaris-tokens';
-import {createTheme} from '@shopify/restyle';
+import {createTheme, TextProps} from '@shopify/restyle';
+import {ButtonProps, IconButtonProps, ScreenProps, TextInputProps} from '@ui';
 
 const pxToNumber = (px: string) => {
   return parseInt(px.replace('px', ''), 10);
 };
 
-export const baseTheme = createTheme({
+const base = {
+  breakpoints: {
+    largeTablet: 1024,
+    longPhone: {
+      height: 812,
+      width: 0,
+    },
+    phone: 0,
+    tablet: 768,
+  },
   colors: {
     background: tokens.colorWhite,
-    onBackground: tokens.colorBlack,
     danger: tokens.colorRed,
+    onBackground: tokens.colorBlack,
     primary: tokens.colorIndigo,
   },
   spacing: {
-    none: 0,
-    xs: pxToNumber(tokens.spacingExtraTight),
-    s: pxToNumber(tokens.spacingBaseTight),
-    m: pxToNumber(tokens.spacingBase),
+    xl: pxToNumber(tokens.spacingExtraLoose),
     l: pxToNumber(tokens.spacingLoose),
+    m: pxToNumber(tokens.spacingBase),
+    none: 0,
+    s: pxToNumber(tokens.spacingBaseTight),
+    xs: pxToNumber(tokens.spacingExtraTight),
   },
-  breakpoints: {
-    phone: 0,
-    longPhone: {
-      width: 0,
-      height: 812,
+};
+
+type BaseThemeType = typeof base & {
+  iconButtonVariants: {[key: string]: Omit<IconButtonProps, 'icon'>};
+  screenVariants: {[key: string]: ScreenProps};
+  textVariants: {[key: string]: TextProps<typeof base>};
+  textInputVariants: {[key: string]: TextInputProps};
+  buttonVariants: {[key: string]: Omit<ButtonProps, 'children'>};
+};
+
+export const baseTheme: BaseThemeType = createTheme<BaseThemeType>({
+  ...base,
+  buttonVariants: {
+    defaults: {
+      color: 'primary',
     },
-    tablet: 768,
-    largeTablet: 1024,
+  },
+  iconButtonVariants: {
+    defaults: {
+      color: 'primary',
+    },
+  },
+  screenVariants: {
+    defaults: {
+      backgroundColor: 'background',
+      flex: 1,
+    },
+  },
+  textInputVariants: {
+    defaults: {
+      fontSize: 21,
+    },
   },
   textVariants: {
-    title: {
-      fontWeight: 'bold',
-      fontSize: 37,
-      lineHeight: 37 * 1.7,
-      color: 'onBackground',
-    },
-    subtitle: {
-      fontWeight: 'bold',
-      fontSize: 21,
-      lineHeight: 21 * 1.7,
-      color: 'onBackground',
-    },
     paragraph: {
+      color: 'onBackground',
       fontSize: 16,
       lineHeight: 16 * 1.7,
+    },
+    subtitle: {
       color: 'onBackground',
+      fontSize: 21,
+      fontWeight: 'bold',
+      lineHeight: 21 * 1.7,
+    },
+    title: {
+      color: 'onBackground',
+      fontSize: 37,
+      fontWeight: 'bold',
+      lineHeight: 37 * 1.7,
     },
   },
 });
